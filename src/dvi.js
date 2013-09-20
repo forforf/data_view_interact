@@ -67,7 +67,7 @@ var DVI  = ( function() {
 					arguments.push(this.args[i]);
 				}
 				arguments.push(setCallback);
-				// Get and set the data 
+				// Get and set the data
 				this.set_func.apply(null, arguments);
 			} catch(e) {
 				console.log("Data setting error: " + e.message);
