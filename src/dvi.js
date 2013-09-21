@@ -49,25 +49,29 @@ var DVI  = ( function() {
 
     Data.prototype = {
         set: function() {
-            var self = this;
-            // Call setCallback after retreiving data
-            function setCallback(response) {
-                if (response !== undefined && response !== null) {
-                    self.data = response;
-                    self.current = 'yes';
-                } else {
-                    throw new Error("No response from server.");
+            try {
+                var self = this;
+                // Call setCallback after retreiving data
+                function setCallback(response) {
+                    if (response !== undefined && response !== null) {
+                        self.data = response;
+                        self.current = 'yes';
+                    } else {
+                        throw new Error("No response from server.");
+                    }
+                    self.loadCallback();
                 }
-                self.loadCallback();
+                // Push the callback function into arguments array
+                var arguments = [];
+                for (var i = 0; i < this.args.length; i++) {
+                    arguments.push(this.args[i]);
+                }
+                arguments.push(setCallback);
+                // Get and set the data
+                this.set_func.apply(null, arguments);
+            } catch(e) {
+                console.log("Data setting error: " + e.message);
             }
-            // Push the callback function into arguments array
-            var arguments = [];
-            for (var i = 0; i < this.args.length; i++) {
-                arguments.push(this.args[i]);
-            }
-            arguments.push(setCallback);
-            // Get and set the data
-            this.set_func.apply(null, arguments);
         },
 
         update: function(callback) {
@@ -119,12 +123,20 @@ var DVI  = ( function() {
         loadCallback: function() {
             if (this.current == 'yes') {
                 for (var i = 0; i < this.callback.length; i++) {
-                    this.callback[i](this.data);
+                    try {
+                        this.callback[i](this.data);
+                    } catch(e) {
+                        console.log("Error with callback function: " + e.message);
+                    }
                 }
                 this.callback = [];
                 for (var view in this.views) {
                     if (this.views.hasOwnProperty(view)) {
-                        this.views[view](this.data);
+                        try {
+                            this.views[view](this.data);
+                        } catch(e) {
+                            console.log("Error updating view: " + e.message);
+                        }
                     }
                 }
             } else {
@@ -158,13 +170,21 @@ var DVI  = ( function() {
 
     View.prototype = {
         attach: function(Data) {
-            Data.addView(this.name, this.update);
-            this.Data = Data;
+            try {
+                Data.addView(this.name, this.update);
+                this.Data = Data;
+            } catch(e) {
+                console.log("Error attaching Data object: " + e.message);
+            }
         },
 
         detach: function() {
             this.Data = {};
-            Data.removeView(this.name);
+            try {
+                Data.removeView(this.name);
+            } catch(e) {
+                console.log("Error detaching Data object: " + e.message);
+            }
         },
 
         load: function(data, callback) {
