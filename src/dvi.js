@@ -174,9 +174,14 @@ var DVI  = ( function() {
                     callback(data);
             } else if (this.Data !== undefined && this.Data.update !== undefined) {
                 this.Data.update( function(data) {
-                    this.update(data);
-                    if (typeof callback == "function")
-                        callback(data);
+                    if (this.update instanceof Function){
+                        this.update(data);
+                        if (typeof callback == "function")
+                            callback(data);
+                    } else {
+                        //what to do if callback is not a function and it has no update method?
+                    }
+
                 });
             } else {
                 console.log("Error updating " + this.name + " view. No Data.");
