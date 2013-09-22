@@ -78,7 +78,7 @@ describe('DVI', function(){
 
                 describe('DVI.view class', function(){
                     it('can instantiate a new view object', function(){
-                        var dummyDataObj = new DVI.data(function(){}, ['dummy'])
+                        var dummyDataObj = new DVI.data(function(){}, ['dummy']);
                         expect(new DVI.view('viewName', function(){}, dummyDataObj)).toBeDefined();
                     })
                 });
@@ -132,7 +132,7 @@ describe('DVI', function(){
 
                             //This is failing I don't know why yet
                             viewObj.detach();
-                            expect('expected thing').toBe('actual thing')
+                            expect('test thing').toBe('actual thing')
                         });
 
 
@@ -145,7 +145,8 @@ describe('DVI', function(){
 
             describe('DVI.interface', function(){
                 var domTestingId = 'dvi-view-testing-id';
-                var domTesting, viewDivId, viewDiv;
+                var domTesting, viewDivId, viewDiv, selectHtml,
+                    interfaceDiv, interfaceDivId, selectFrag;
 
                 beforeEach(function(){
                     domTesting = setUpDomTestArea(domTestingId);
@@ -153,6 +154,21 @@ describe('DVI', function(){
                     viewDiv = document.createElement('div');
                     viewDiv.setAttribute('id', viewDivId);
                     domTesting.appendChild(viewDiv);
+
+                    selectHtml = [
+                        "<select id='select-id'>",
+                        "   <option value='foo'>foo name</option>",
+                        "   <option value='bar'>bar name</option>",
+                        "</select>"
+                    ].join("\n");
+
+                    interfaceDiv = document.createElement('div');
+                    interfaceDivId = 'interface-div-id';
+                    interfaceDiv.setAttribute('id', interfaceDivId);
+                    interfaceDiv.innerHTML = selectHtml;
+
+                    domTesting.appendChild(interfaceDiv);
+
                 });
 
                 afterEach(function(){
@@ -167,12 +183,23 @@ describe('DVI', function(){
 
                 describe('DVI.interface class', function(){
                     it('can instantiate a new interface object', function(){
-                        var dummyDataObj = new DVI.interface(function(){}, ['dummy'])
-                        expect(new DVI.view('viewName', function(){}, dummyDataObj)).toBeDefined();
+                        var dummyDataObj = new DVI.data(function(){}, ['dummy']);
+                        expect(new DVI.interface('interfaceName', function(){}, dummyDataObj)).toBeDefined();
                     })
                 });
 
+                describe('DVI.view object operations', function(){
+                    it('tests are pending until jQuery dependency cleared up', function(){
+                        expect('pending').toEqual('completed');
+                    });
+                });
+
+
             });
+
+
+
+
         });
     });
 
