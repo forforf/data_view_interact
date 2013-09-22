@@ -1,2 +1,3 @@
 #exclude ide project metadata
 .idea/
+node_modules/
