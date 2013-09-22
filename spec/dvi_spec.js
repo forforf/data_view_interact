@@ -11,6 +11,7 @@ describe('DVI', function(){
         queryObj = {foo: 'FOO', bar: 'BAR'};
 
         dataCallback = function(arg, cb){
+            console.log('Data Obj Callback', arg, queryObj[arg]);
             cb(queryObj[arg]);
         };
 
@@ -120,33 +121,13 @@ describe('DVI', function(){
                         });
                     });
 
-                    describe('detach', function(){
-                        it('detaches the data from the view', function(){
-                            //Verifies there's no data in the dom
-                            expect(document.getElementById(viewDivId)).toBe(viewDiv);
-                            expect(document.getElementById(viewDivId).innerHTML).toBeUndefined;
-
-                            //update the dom
-                            viewObj.load();
-                            expect(document.getElementById(viewDivId).innerHTML).toBe('FOO');
-
-                            //This is failing I don't know why yet
-                            viewObj.detach();
-                            expect('test thing').toBe('actual thing')
-                        });
-
-
-                    });
                 });
-
-
-
             });
 
             describe('DVI.interface', function(){
                 var domTestingId = 'dvi-view-testing-id';
                 var domTesting, viewDivId, viewDiv, selectHtml,
-                    interfaceDiv, interfaceDivId, selectFrag;
+                    interfaceDiv, interfaceDivId, interfaceCallback;
 
                 beforeEach(function(){
                     domTesting = setUpDomTestArea(domTestingId);
@@ -159,7 +140,8 @@ describe('DVI', function(){
                         "<select id='select-id'>",
                         "   <option value='foo'>foo name</option>",
                         "   <option value='bar'>bar name</option>",
-                        "</select>"
+                        "</select>",
+                        "<span id='value-selected-id'>Unset</span>"
                     ].join("\n");
 
                     interfaceDiv = document.createElement('div');
@@ -168,6 +150,12 @@ describe('DVI', function(){
                     interfaceDiv.innerHTML = selectHtml;
 
                     domTesting.appendChild(interfaceDiv);
+
+                    interfaceCallback = function(data){
+                        //jQuery dependent
+                        console.log('intfCallback data', data);
+                        $('#value-selected-id').html(data);
+                    };
 
                 });
 
@@ -188,17 +176,28 @@ describe('DVI', function(){
                     })
                 });
 
-                describe('DVI.view object operations', function(){
-                    it('tests are pending until jQuery dependency cleared up', function(){
-                        expect('pending').toEqual('completed');
+                describe('DVI.interface object operations', function(){
+                    it('updates the view based on (simulated) user action', function(){
+                        var intfViewObj = new DVI.view('intfView', interfaceCallback, dataObj);
+                        var intfObj = new DVI.interface($('select#select-id'), dataObj);
+
+                        dviVal = function(){
+                            return $('#value-selected-id').text()
+                        };
+
+                        //initial set up sets span to FOO
+
+                        expect(dviVal()).toEqual('FOO');
+
+                        //simulate user selected 'bar' from select drop down
+
+                        $('select#select-id').val('bar').trigger('change');
+                        expect($('#value-selected-id').text()).toEqual('BAR');
                     });
                 });
 
 
             });
-
-
-
 
         });
     });

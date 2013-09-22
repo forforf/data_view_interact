@@ -228,8 +228,10 @@ var DVI  = ( function() {
             var _this = this;
             this.handler = function() { Data.change(null, _this.value()); };
             // Use jQuery if available
-            if ($ !== undefined && $.fn.change !== undefined) {
-                $(this.input).bind("change."+this.id, function() {
+
+
+            if (typeof $ !== 'undefined' && $.fn.change !== undefined) {
+                $(this.input).on("change."+this.id, function() {
                     var value = null;
                     var type = $(this).prop('type');
                     if (type == 'radio' || type == 'checkbox') {
@@ -340,12 +342,16 @@ var DVI  = ( function() {
         },
 
         findType: function(el) {
+            console.log('el', el);
+
             if (el.length !== undefined) {
                 if (el.type !== undefined) // a select field
                     return el.type;
                 else
                     el = el[0];
             }
+
+            console.log('el', el);
             var tagType = el.tagName.toLowerCase();
 
             if (tagType = "input")
