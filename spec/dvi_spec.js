@@ -11,7 +11,6 @@ describe('DVI', function(){
         queryObj = {foo: 'FOO', bar: 'BAR'};
 
         dataCallback = function(arg, cb){
-            console.log('Data Obj Callback', arg, queryObj[arg]);
             cb(queryObj[arg]);
         };
 
@@ -153,7 +152,6 @@ describe('DVI', function(){
 
                     interfaceCallback = function(data){
                         //jQuery dependent
-                        console.log('intfCallback data', data);
                         $('#value-selected-id').html(data);
                     };
 
