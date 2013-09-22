@@ -82,6 +82,7 @@ Interface
 =========
 
 Used to easily link Data updates to form inputs
+Note: Requires jQuery.
 
 	 Constructor:
 
