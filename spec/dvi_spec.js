@@ -14,6 +14,7 @@ describe('DVI', function(){
             cb(queryObj[arg]);
         };
 
+        //default dataObj for testing
         dataObj =  new DVI.data(dataCallback,['foo']);
     });
 
@@ -97,30 +98,81 @@ describe('DVI', function(){
 
                     afterEach(function(){})
 
-                    describe('attach', function(){
-                        it('attaches a data to the view directly', function(){
-                            //Nothing there yet
+                    describe('load', function(){
+                        it('loads data to the view directly', function(){
+                            //Verifies there's no data in the dom
                             expect(document.getElementById(viewDivId)).toBe(viewDiv);
                             expect(document.getElementById(viewDivId).innerHTML).toBeUndefined;
+
+                            //Update the dom
                             viewObj.load('updated data');
                             expect(document.getElementById(viewDivId).innerHTML).toBe('updated data');
                         });
 
-                        it('attaches a data to the view via the Data Object', function(){
-                            //Nothing there yet
+                        it('loads data to the view via the Data Object', function(){
+                            //Verifies there's no data in the dom
                             expect(document.getElementById(viewDivId)).toBe(viewDiv);
                             expect(document.getElementById(viewDivId).innerHTML).toBeUndefined;
-                            console.log(dataObj.args)
+
+                            //Update the dom
                             viewObj.load();
                             expect(document.getElementById(viewDivId).innerHTML).toBe('FOO');
                         });
+                    });
+
+                    describe('detach', function(){
+                        it('detaches the data from the view', function(){
+                            //Verifies there's no data in the dom
+                            expect(document.getElementById(viewDivId)).toBe(viewDiv);
+                            expect(document.getElementById(viewDivId).innerHTML).toBeUndefined;
+
+                            //update the dom
+                            viewObj.load();
+                            expect(document.getElementById(viewDivId).innerHTML).toBe('FOO');
+
+                            //This is failing I don't know why yet
+                            viewObj.detach();
+                            expect('expected thing').toBe('actual thing')
+                        });
+
+
+                    });
+                });
+
+
+
+            });
+
+            describe('DVI.interface', function(){
+                var domTestingId = 'dvi-view-testing-id';
+                var domTesting, viewDivId, viewDiv;
+
+                beforeEach(function(){
+                    domTesting = setUpDomTestArea(domTestingId);
+                    viewDivId = 'view-div-id';
+                    viewDiv = document.createElement('div');
+                    viewDiv.setAttribute('id', viewDivId);
+                    domTesting.appendChild(viewDiv);
+                });
+
+                afterEach(function(){
+                    tearDownDomTestArea(domTestingId)
+                });
+
+                it('setup passes sanity checks', function(){
+                    expect(domTesting).toBeDefined();
+                    expect(document.getElementById(domTestingId)).toBe(domTesting);
+
+                });
+
+                describe('DVI.interface class', function(){
+                    it('can instantiate a new interface object', function(){
+                        var dummyDataObj = new DVI.interface(function(){}, ['dummy'])
+                        expect(new DVI.view('viewName', function(){}, dummyDataObj)).toBeDefined();
                     })
-                })
+                });
 
-
-
-            })
-
+            });
         });
     });
 
