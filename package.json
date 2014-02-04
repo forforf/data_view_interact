@@ -1,5 +1,5 @@
 {
-    "name": "data_view_interface",
+    "name": "data_view_interact",
     "version": "0.1.0",
     "devDependencies": {
         "grunt": "~0.4.1",

@@ -1,9 +1,7 @@
-data_view_interface
+data_view_interact
 ===================
 
 ### Current Build Status from Travis-CI
-(automatically runs test suite when changes pushed to github)
-
 [![Build Status](https://travis-ci.org/forforf/data_view_interface.png)](https://travis-ci.org/forforf/data_view_interface)
 
 A simple JavaScript tool to make requesting, displaying, caching, and changing Backend data easier for web apps.
@@ -14,7 +12,7 @@ Broken into 3 parts:
 
 2. View (holds a function to update the UI using a Data object)
  
-3. Interface (completely optional, but may connect a user input event to a command to change or update a Data object)
+3. Interact (completely optional, but may connect a user input event to a command to change or update a Data object)
 
 Data
 ====
@@ -83,15 +81,14 @@ Used to create objects to update UI
 
 
 
-Interface
+Interact
 =========
 
 Used to easily link Data updates to form inputs
-Note: Requires jQuery.
 
 	 Constructor:
 
-	 *   new Interface(input, format_func, Data, init)
+	 *   new Interact(input, format_func, Data, init)
 
 	     where "input" is a reference to the input element interface, and 
 
@@ -101,11 +98,11 @@ Note: Requires jQuery.
 
 	 Interface:
 
-	 *   Interface.attach(Data, format_func) = attaches a Data object to change in the
+	 *   Interact.attach(Data, format_func) = attaches a Data object to change in the
 
 	     event of this.input value change. format_func may modify input value.
 
-	 *   Interface.detach(Data) = detaches the Data object.
+	 *   Interact.detach(Data) = detaches the Data object.
 
 
 Usage/Examples
@@ -124,7 +121,7 @@ Short and sweet
 	
 	}, currentMerchantData);
 
-	var merchantSelect = new DVI.interface( $('select#set-merchant'), currentMerchantData);
+	var merchantSelect = new DVI.interact( $('select#set-merchant'), currentMerchantData);
 
 	// Now, selecting a new merchant in the select field with an ID of 'set-merchant' will cause the Data object to reload with the new value for the merchant_id and update the view showing the merchant name.
 	
@@ -161,7 +158,7 @@ So to create a custom backend communication function you'd write:
 Now to use the custom function, you'd create the DVI data object with the appropriate argument:
 	
 	// create the DVI data object
-	var dviDataObj = new DVI.data(customCallback, 'foo');
+	var dviDataObj = new DVI.data(customCallback, ['foo']);
 	
 Now calling get() on the DVI data object returns the expected backend response:
 	

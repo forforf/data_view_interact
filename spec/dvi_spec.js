@@ -123,10 +123,10 @@ describe('DVI', function(){
                 });
             });
 
-            describe('DVI.interface', function(){
+            describe('DVI.interact', function(){
                 var domTestingId = 'dvi-view-testing-id';
                 var domTesting, viewDivId, viewDiv, selectHtml,
-                    interfaceDiv, interfaceDivId, interfaceCallback;
+                    interactDiv, interactDivId, interactCallback;
 
                 beforeEach(function(){
                     domTesting = setUpDomTestArea(domTestingId);
@@ -143,14 +143,14 @@ describe('DVI', function(){
                         "<span id='value-selected-id'>Unset</span>"
                     ].join("\n");
 
-                    interfaceDiv = document.createElement('div');
-                    interfaceDivId = 'interface-div-id';
-                    interfaceDiv.setAttribute('id', interfaceDivId);
-                    interfaceDiv.innerHTML = selectHtml;
+                    interactDiv = document.createElement('div');
+                    interactDivId = 'interact-div-id';
+                    interactDiv.setAttribute('id', interactDivId);
+                    interactDiv.innerHTML = selectHtml;
 
-                    domTesting.appendChild(interfaceDiv);
+                    domTesting.appendChild(interactDiv);
 
-                    interfaceCallback = function(data){
+                    interactCallback = function(data){
                         //jQuery dependent
                         $('#value-selected-id').html(data);
                     };
@@ -167,17 +167,17 @@ describe('DVI', function(){
 
                 });
 
-                describe('DVI.interface class', function(){
-                    it('can instantiate a new interface object', function(){
+                describe('DVI.interact class', function(){
+                    it('can instantiate a new interact object', function(){
                         var dummyDataObj = new DVI.data(function(){}, ['dummy']);
-                        expect(new DVI.interface('interfaceName', function(){}, dummyDataObj)).toBeDefined();
+                        expect(new DVI.interact('interactName', function(){}, dummyDataObj)).toBeDefined();
                     })
                 });
 
-                describe('DVI.interface object operations', function(){
+                describe('DVI.interact object operations', function(){
                     it('updates the view based on (simulated) user action', function(){
-                        var intfViewObj = new DVI.view('intfView', interfaceCallback, dataObj);
-                        var intfObj = new DVI.interface($('select#select-id'), dataObj);
+                        var intfViewObj = new DVI.view('intfView', interactCallback, dataObj);
+                        var intfObj = new DVI.interact($('select#select-id'), dataObj);
 
                         dviVal = function(){
                             return $('#value-selected-id').text()
