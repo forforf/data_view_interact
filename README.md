@@ -2,7 +2,7 @@ data_view_interact
 ===================
 
 ### Current Build Status from Travis-CI
-[![Build Status](https://travis-ci.org/forforf/data_view_interface.png)](https://travis-ci.org/forforf/data_view_interface)
+[![Build Status](https://travis-ci.org/forforf/data_view_interact.png)](https://travis-ci.org/forforf/data_view_interact)
 
 A simple JavaScript tool to make requesting, displaying, caching, and changing Backend data easier for web apps.
 
