@@ -1,0 +1,4 @@
+# blacklist this branch from being tested using travis
+branches:
+  except:
+    - master
